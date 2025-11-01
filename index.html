@@ -175,7 +175,7 @@ body{
   <audio id="loveAudio" src="love-song.mp3" preload="metadata"></audio>
 
 <script>
-// 💙 Header typing then main typing
+// 💙 Continuous header typing animation
 const topText = "To ma gal 💕";
 const topContainer = document.getElementById("topTyping");
 const topCursor = document.createElement("span");
@@ -185,60 +185,58 @@ topContainer.appendChild(topCursor);
 let i = 0;
 let typingForward = true;
 
-function typeHeader() {
+function loopHeader() {
   if (typingForward) {
     if (i < topText.length) {
       topContainer.textContent = topText.substring(0, i + 1);
       topContainer.appendChild(topCursor);
       i++;
-      setTimeout(typeHeader, 150);
+      setTimeout(loopHeader, 150);
     } else {
       typingForward = false;
-      setTimeout(typeHeader, 1000);
+      setTimeout(loopHeader, 1000);
     }
   } else {
     if (i > 0) {
       topContainer.textContent = topText.substring(0, i - 1);
       topContainer.appendChild(topCursor);
       i--;
-      setTimeout(typeHeader, 100);
+      setTimeout(loopHeader, 100);
     } else {
-      // start main message after finishing erase
-      startMainTyping();
+      typingForward = true;
+      setTimeout(loopHeader, 1000);
     }
   }
 }
-typeHeader();
+loopHeader();
 
-// 💙 Main love message typing
-function startMainTyping() {
-  const message=`My love is so true and pure; my love is only for you. I wish to take you in my arms, and never let you go. I wish to be with you till the end of time. I wish that sleeping in your arms under the moonlight, we look at the stars. The passion, the love, the feelings are pure. I really wish that we stay this way forever. I wish that we go to the beach by the sea. Holding your hands, I wanna just feel you and your love. The feelings are true, it's only for you. I wish the time stops by, and the moment also stops. I don't wanna let you go, coz you know that I love you so much. And, I wish you understand that I can't live without you now. Seal my lips with a tender kiss as we exchange the wedding vow. I love you so much my sweetheart, we shall now never stay apart.`;
+// 💙 Main message typing
+const message=`My love is so true and pure; my love is only for you. I wish to take you in my arms, and never let you go. I wish to be with you till the end of time. I wish that sleeping in your arms under the moonlight, we look at the stars. The passion, the love, the feelings are pure. I really wish that we stay this way forever. I wish that we go to the beach by the sea. Holding your hands, I wanna just feel you and your love. The feelings are true, it's only for you. I wish the time stops by, and the moment also stops. I don't wanna let you go, coz you know that I love you so much. And, I wish you understand that I can't live without you now. Seal my lips with a tender kiss as we exchange the wedding vow. I love you so much my sweetheart, we shall now never stay apart.`;
 
-  const container=document.getElementById('typing');
-  const letterCursor=document.createElement('span');
-  letterCursor.className='cursor';
-  container.appendChild(letterCursor);
+const container=document.getElementById('typing');
+const letterCursor=document.createElement('span');
+letterCursor.className='cursor';
+container.appendChild(letterCursor);
 
-  const chars=Array.from(message);
-  const totalDuration=60000; // 1 minute
-  const avg=totalDuration/chars.length;
-  const typingAudio=document.getElementById('typingAudio');
-  typingAudio.volume=0.07;
+const chars=Array.from(message);
+const totalDuration=60000;
+const avg=totalDuration/chars.length;
+const typingAudio=document.getElementById('typingAudio');
+typingAudio.volume=0.07;
 
-  let idx=0;
-  function typeNext(){
-    if(idx>=chars.length){letterCursor.style.opacity='0';return;}
-    const ch=chars[idx++];
-    if(ch==='\\n') container.insertBefore(document.createElement('br'),letterCursor);
-    else container.insertBefore(document.createTextNode(ch),letterCursor);
-    if(ch.trim().length>0){typingAudio.currentTime=0;typingAudio.play().catch(()=>{});}
-    container.parentElement.scrollTop=container.parentElement.scrollHeight;
-    setTimeout(typeNext,avg);
-  }
-  typeNext();
+let idx=0;
+function typeNext(){
+  if(idx>=chars.length){letterCursor.style.opacity='0';return;}
+  const ch=chars[idx++];
+  if(ch==='\\n') container.insertBefore(document.createElement('br'),letterCursor);
+  else container.insertBefore(document.createTextNode(ch),letterCursor);
+  if(ch.trim().length>0){typingAudio.currentTime=0;typingAudio.play().catch(()=>{});}
+  container.parentElement.scrollTop=container.parentElement.scrollHeight;
+  setTimeout(typeNext,avg);
 }
+window.addEventListener('load',()=>setTimeout(typeNext,500));
 
-// ❤️ Music play/pause with crossfade loop
+// ❤️ Music button controls (manual start)
 const musicBtn=document.getElementById('musicBtn');
 const loveAudio=document.getElementById('loveAudio');
 const playIcon=document.getElementById('playIcon');
@@ -246,8 +244,11 @@ const pauseIcon=document.getElementById('pauseIcon');
 loveAudio.volume=0.8;
 
 musicBtn.addEventListener('click',()=>{
-  if(loveAudio.paused){loveAudio.play().catch(()=>{});}
-  else loveAudio.pause();
+  if(loveAudio.paused){
+    loveAudio.play().catch((e)=>console.log("Tap required:", e));
+  } else {
+    loveAudio.pause();
+  }
 });
 
 loveAudio.addEventListener('play',()=>{
@@ -262,7 +263,7 @@ loveAudio.addEventListener('pause',()=>{
   pauseIcon.style.display='none';
 });
 
-// soft crossfade loop
+// 🔁 Soft crossfade loop
 loveAudio.addEventListener('timeupdate',()=>{
   if(loveAudio.duration && loveAudio.currentTime >= loveAudio.duration - 1){
     let startVol = loveAudio.volume;
