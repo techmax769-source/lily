@@ -35,7 +35,10 @@ body{
   box-shadow:0 14px 32px rgba(0,0,0,0.6);
 }
 .photo{
-  width:100%;height:100%;object-fit:cover;transition:transform .6s ease;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .6s ease;
 }
 .photo:hover{transform:scale(1.02);}
 .message{
@@ -59,20 +62,27 @@ body{
   white-space:pre-wrap;
 }
 .cursor{
-  display:inline-block;width:2px;height:1.2em;
+  display:inline-block;
+  width:2px;
+  height:1.2em;
   background:linear-gradient(180deg,var(--pink),var(--gold));
   animation:blink 1s steps(2,start) infinite;
 }
 @keyframes blink{50%{opacity:.2}}
 /* play button small & translucent */
 .play-floating{
-  position:absolute;bottom:10px;right:12px;
-  width:52px;height:52px;
+  position:absolute;
+  bottom:10px;
+  right:12px;
+  width:52px;
+  height:52px;
   border-radius:50%;
   background:rgba(255,255,255,0.07);
   border:1px solid rgba(255,255,255,0.15);
   backdrop-filter:blur(8px);
-  display:flex;align-items:center;justify-content:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   box-shadow:0 4px 12px rgba(0,0,0,0.4);
   cursor:pointer;
   transition:all .25s ease;
@@ -80,19 +90,24 @@ body{
 }
 .play-floating:hover{transform:scale(1.05);}
 .play-floating.playing{animation:pulse 2s infinite;}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,0.1);}70%{box-shadow:0 0 0 10px transparent;}100%{box-shadow:0 0 0 0 transparent;}}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(255,255,255,0.1);}
+  70%{box-shadow:0 0 0 10px transparent;}
+  100%{box-shadow:0 0 0 0 transparent;}
+}
 .icon{width:26px;height:26px;fill:#fff;opacity:.85;}
 /* signature */
 .signature{
   position:absolute;
-  bottom:70px;left:50%;
+  bottom:70px;
+  left:50%;
   transform:translateX(-50%);
   font-family:'Great Vibes',cursive;
   font-size:22px;
   color:var(--gold);
   letter-spacing:1px;
   opacity:0;
-  animation:fadeInGlow 4s ease 4s forwards;
+  animation:fadeInGlow 3s ease 3s forwards, shimmer 6s ease-in-out infinite;
   text-shadow:0 0 6px rgba(255,209,102,0.4);
 }
 @keyframes fadeInGlow{
@@ -104,9 +119,6 @@ body{
   0%{text-shadow:0 0 6px rgba(255,209,102,0.3);}
   50%{text-shadow:0 0 12px rgba(255,209,102,0.6);}
   100%{text-shadow:0 0 6px rgba(255,209,102,0.3);}
-}
-.signature{
-  animation:fadeInGlow 3s ease 3s forwards, shimmer 6s ease-in-out infinite;
 }
 @media(max-width:420px){
   .message h1{font-size:17px;}
@@ -136,38 +148,80 @@ body{
   <audio id="loveAudio" src="love-song.mp3" preload="metadata"></audio>
 
 <script>
-const message=`My love is so true and pure; my love is only for you. I wish to take you in my arms, and never let you go. I wish to be with you till the end of time. I wish that sleeping in your arms under the moonlight, we look at the stars. The passion, the love, the feelings are pure. I really wish that we stay this way forever. I wish that we go to the beach by the sea. Holding your hands, I wanna just feel you and your love. The feelings are true, it's only for you. I wish the time stops by, and the moment also stops. I don't wanna let you go, coz you know that I love you so much. And, I wish you understand that I can't live without you now. Seal my lips with a tender kiss as we exchange the wedding vow. I love you so much my sweetheart, we shall now never stay apart.`;
+const message=`When I see you, something inside me just changes. When I see you, I want to hold your hand so tight, and tell you what you mean to me🙈. I assure you that things will never change and my love will remain the same. It has been forever this way since I heard your name,,,hata before tupatane.🥺 You have some magical spell that takes me to another world.I long that, lying in thine arms beneath the moon’s soft glow, we gaze upon the stars above. The passion, the lov, the feeling—all pure and everlasting🙈🤭❤️.`;
+
 const container=document.getElementById('typing');
-const cursor=document.createElement('span');cursor.className='cursor';container.appendChild(cursor);
-const chars=Array.from(message);const totalDuration=60000;const avg=totalDuration/chars.length;
-const audio=document.getElementById('typingAudio');audio.volume=0.07;
+const cursor=document.createElement('span');
+cursor.className='cursor';
+container.appendChild(cursor);
+
+const chars=Array.from(message);
+const totalDuration=60000; // 1 minute typing
+const avg=totalDuration/chars.length;
+const typingAudio=document.getElementById('typingAudio');
+typingAudio.volume=0.07;
+
 let idx=0;
 function typeNext(){
   if(idx>=chars.length){cursor.style.opacity='0';return;}
-  const ch=chars[idx++]; if(ch==='\\n')container.insertBefore(document.createElement('br'),cursor);
+  const ch=chars[idx++];
+  if(ch==='\\n') container.insertBefore(document.createElement('br'),cursor);
   else container.insertBefore(document.createTextNode(ch),cursor);
-  if(ch.trim().length>0){audio.currentTime=0;audio.play().catch(()=>{});}
+  if(ch.trim().length>0){typingAudio.currentTime=0;typingAudio.play().catch(()=>{});}
   container.parentElement.scrollTop=container.parentElement.scrollHeight;
   setTimeout(typeNext,avg);
 }
 window.addEventListener('load',()=>setTimeout(typeNext,500));
 
+// Music controls with smooth looping
 const musicBtn=document.getElementById('musicBtn');
 const loveAudio=document.getElementById('loveAudio');
 const playIcon=document.getElementById('playIcon');
 const pauseIcon=document.getElementById('pauseIcon');
+loveAudio.volume=0.8;
+
 musicBtn.addEventListener('click',()=>{
   if(loveAudio.paused){loveAudio.play().catch(()=>{});}
   else loveAudio.pause();
 });
+
 loveAudio.addEventListener('play',()=>{
   musicBtn.classList.add('playing');
-  playIcon.style.display='none';pauseIcon.style.display='block';
+  playIcon.style.display='none';
+  pauseIcon.style.display='block';
 });
+
 loveAudio.addEventListener('pause',()=>{
   musicBtn.classList.remove('playing');
-  playIcon.style.display='block';pauseIcon.style.display='none';
+  playIcon.style.display='block';
+  pauseIcon.style.display='none';
 });
+
+// Seamless crossfade replay
+loveAudio.addEventListener('timeupdate',()=>{
+  if(loveAudio.duration && loveAudio.currentTime >= loveAudio.duration - 1){
+    let startVol = loveAudio.volume;
+    let step = startVol / 20;
+    let fade = setInterval(()=>{
+      if(loveAudio.volume > step){
+        loveAudio.volume -= step;
+      } else {
+        clearInterval(fade);
+        loveAudio.currentTime = 0;
+        loveAudio.play();
+        fadeIn();
+      }
+    },50);
+  }
+});
+function fadeIn(){
+  loveAudio.volume = 0;
+  let step = 0.04;
+  let fade = setInterval(()=>{
+    if(loveAudio.volume < 0.8){loveAudio.volume += step;}
+    else{clearInterval(fade);}
+  },50);
+}
 </script>
 </body>
-  </html>
+</html>
