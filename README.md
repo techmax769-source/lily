@@ -1,10 +1,14 @@
+<p align="center">
+  <img src="https://i.imgur.com/FwZH7vM.png" width="100%" alt="Medieval illuminated scroll banner">
+</p>
+
 <h1 align="center">💞 For Mine Fairest Darling 💞</h1>
 
 <p align="center">
-  <img src="https://i.imgur.com/JRRZ9bX.gif" width="120" alt="glowing heart">
+  <img src="https://i.imgur.com/JRRZ9bX.gif" width="120" alt="heart sparkle">
 </p>
 
-<h3 align="center">✨ A web of affection, woven with code and steadfast devotion ✨</h3>
+<h3 align="center">✨ A Web of Affection, Woven with Code and Devotion ✨</h3>
 
 ---
 
@@ -12,28 +16,29 @@
 
 > This humble craft be not mere script and style,  
 > But a token wrought of love, by gentle guile.  
-> In every shimmer, in every hue —  
-> Dwelleth mine heart, devoted unto **thee**, my sweetest Lilian Gatwiri 💫
+> In every shimmer, in every hue,  
+> Dwelleth mine heart — devoted unto **thee**, my sweetest **Lilian Gatwiri 💫**
 
-Thee shalt find not lines of logic nor dull code,  
-But the whisper of fondness, the glow of the moon,  
-And the rhythm of affection that never doth fade. 💗
+Thou shalt find not logic nor machine,  
+But the pulse of love made visible between lines unseen.  
+A soft enchantment breathing through sound and glow —  
+The soul’s confession in digital flow. 💗
 
 ---
 
 ### 💫 Whence Its Enchantment Lies
 
 💖 **Animated Declarations:**  
-Soft glimmers and tender motion that mirror the pulse of love.
+Soft glimmers and tender motions that mirror the pulse of love.  
 
 🎵 **Melody Enchanted:**  
-A song that breathes and fades, returning anon — endless as devotion.
+A song that breathes, fades, and riseth again — endless as devotion.  
 
 ✨ **Lyrics That Awaken:**  
-Each verse doth appear in time’s embrace, singing gently with the tune.
+Each verse revealeth itself in time’s embrace, whispering softly with the tune.  
 
 🌙 **Graceful Motion:**  
-Every sparkle, every fade, doth move like sighs upon the night air.
+Every sparkle, every fade, doth move like sighs upon the night air.  
 
 ---
 
@@ -52,9 +57,9 @@ Every sparkle, every fade, doth move like sighs upon the night air.
 
 ### 🪄 Craft and Sorcery Employed
 
-- **HTML5 & CSS3** – the parchment and ink of this enchantment  
-- **JavaScript (Vanilla)** – the spirit that giveth motion and voice  
-- **Melodic Spellcraft** – a song that weaveth soul and sound together  
+- 🕯️ **HTML5 & CSS3** – the parchment and ink of this enchantment  
+- 🔮 **JavaScript (Vanilla)** – the unseen spirit that giveth life and motion  
+- 🎶 **Melodic Spellcraft** – where sound and soul entwine like vines of devotion  
 
 ---
 
@@ -62,12 +67,12 @@ Every sparkle, every fade, doth move like sighs upon the night air.
   <img src="https://i.imgur.com/xSU1H7S.gif" width="100" alt="sparkling heart">
 </p>
 
-<h3 align="center">🕊️ Dedicated unto Lady Lilian Gatwiri — mine muse, mine dawn, mine evermore 🕊️</h3>
+<h3 align="center">🕊️ Dedicated unto Lady Lilian Gatwiri — Mine Muse, Mine Dawn, Mine Evermore 🕊️</h3>
 
 ---
 
 <p align="center">
-  <sub>© In the Year of Our Lord 2025 — “Touch not mine beloved” 💞<br>
+  <sub>© In the Year of Our Lord 2025 — “Touch not mine beloved.” 💞<br>
   Forged with ❤️, patience, and starlit longing.</sub>
 </p>
 
