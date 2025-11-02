@@ -251,7 +251,7 @@ footer .wa{filter:drop-shadow(0 0 3px #25D366);}
 
 <script>
 // 💙 Continuous header typing animation
-const topText = "To ma gal 💕";
+const topText = "To ma pretty gal 💕";
 const topContainer = document.getElementById("topTyping");
 const topCursor = document.createElement("span");
 topCursor.className = "top-cursor";
@@ -316,14 +316,60 @@ const musicBtn=document.getElementById('musicBtn');
 const loveAudio=document.getElementById('loveAudio');
 const playIcon=document.getElementById('playIcon');
 const pauseIcon=document.getElementById('pauseIcon');
-loveAudio.volume=0.8;
+const maxVolume = 0.8; // Define the max volume here
+loveAudio.volume=maxVolume; // Set initial volume
+
+// **Functions for crossfade auto-replay**
+const fadeDuration = 3000; // 3 seconds for fade in/out
+const fadeStep = 0.05; // Volume change step
+
+function startFadeIn() {
+  // Reset the currentLine tracker and remove 'active' class from all lines
+  currentLine = -1; 
+  lines.forEach(l => l.classList.remove('active'));
+
+  // Reset volume to 0 before starting to play
+  loveAudio.volume = 0;
+  loveAudio.currentTime = 0; // Rewind to start
+  loveAudio.play().then(() => {
+    let fadeInterval = setInterval(() => {
+      if (loveAudio.volume < maxVolume - fadeStep) {
+        loveAudio.volume = Math.min(maxVolume, loveAudio.volume + fadeStep);
+      } else {
+        loveAudio.volume = maxVolume;
+        clearInterval(fadeInterval);
+      }
+    }, fadeDuration * (fadeStep / maxVolume) * 0.5); // Calculate interval for smooth fade
+  }).catch(e => console.error("Autoplay failed on fade in:", e));
+}
+
+function fadeOutAndRestart() {
+  let fadeInterval = setInterval(() => {
+    if (loveAudio.volume > fadeStep) {
+      loveAudio.volume = Math.max(0, loveAudio.volume - fadeStep);
+    } else {
+      clearInterval(fadeInterval);
+      // Volume is now 0, restart the song with a fade in
+      startFadeIn(); 
+    }
+  }, fadeDuration * (fadeStep / maxVolume) * 0.5); // Calculate interval for smooth fade
+}
 
 musicBtn.addEventListener('click',()=>{
   if(loveAudio.paused){
-    loveAudio.play().catch((e)=>console.log("Tap required:", e));
+    // Start with a fade-in when the user clicks play
+    startFadeIn(); 
   } else {
+    // Standard pause/stop
     loveAudio.pause();
+    loveAudio.volume = maxVolume; // Reset volume for next play
   }
+});
+
+// **Event Listener for Auto-Replay (starts the crossfade loop)**
+loveAudio.addEventListener('ended', () => {
+    // When the song ends, start the fade-out and restart process
+    fadeOutAndRestart();
 });
 
 loveAudio.addEventListener('play',()=>{
@@ -339,7 +385,6 @@ loveAudio.addEventListener('pause',()=>{
 
 // 💞 Karaoke-style Lyrics Sync with crossfade
 const lyricsContainer = document.getElementById('lyrics');
-// **CORRECTION 1: Added closing backtick (`) for the multiline string**
 lyricsContainer.innerHTML = `
   <span class="line">When it comes to you oh baby I'm addicted.🤭</span>
   <span class="line">You are like a drug no Rehab can fix it...💊</span>
@@ -354,7 +399,7 @@ lyricsContainer.innerHTML = `
   <span class="line">
 You're ma angel come and save me,🫂</span>
 <span class="line">Yeeeaaah...😎</span>
-`; // CLOSING BACKTICK ADDED HERE
+`;
 const lines = lyricsContainer.querySelectorAll('.line');
 const lyricTimings = [0, 3, 6, 10, 14, 18, 21, 25, 28, 34, 37, 40]; // synced to your lyrics
 let currentLine = -1;
@@ -372,8 +417,7 @@ loveAudio.addEventListener('timeupdate', () => {
       if (currentLine !== i) {
         lines.forEach((l, index) => {
           if (index === i) l.classList.add('active');
-          // **CORRECTION 2: Fixed typo from l.clas sList.remove to l.classList.remove**
-          else l.classList.remove('active'); 
+          else l.classList.remove('active');
         });
         currentLine = i;
       }
