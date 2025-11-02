@@ -66,6 +66,36 @@ body{
 }
 .photo{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
 .photo:hover{transform:scale(1.02);}
+
+/* 🎵 Lyrics overlay */
+.lyrics-overlay{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+  font-family:'Courier New',monospace;
+  font-size:13px;
+  color:var(--gold);
+  background:rgba(0,0,0,0.35);
+  padding:8px 10px;
+  border-radius:10px;
+  opacity:0;
+  transition:opacity .8s ease;
+}
+.lyrics-overlay.active{opacity:1;}
+.lyrics-overlay .line{
+  position:absolute;
+  bottom:10px;
+  left:0;
+  width:100%;
+  opacity:0;
+  transition:opacity 1.5s ease-in-out;
+}
+.lyrics-overlay .line.active{
+  opacity:1;
+}
+
+/* message box */
 .message{
   flex:1;
   background:rgba(255,255,255,0.03);
@@ -143,6 +173,30 @@ body{
   50%{text-shadow:0 0 12px rgba(255,209,102,0.6);}
   100%{text-shadow:0 0 6px rgba(255,209,102,0.3);}
 }
+
+/* footer */
+footer{
+  font-family:'Courier New', monospace;
+  font-size:13px;
+  color:#ccc;
+  text-align:center;
+  margin-top:8px;
+  opacity:0.9;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+}
+footer img{
+  width:18px;
+  height:18px;
+  vertical-align:middle;
+  transition:transform 0.2s ease;
+}
+footer img:hover{transform:scale(1.2);}
+footer .ig{filter:drop-shadow(0 0 3px #E4405F);}
+footer .tt{filter:drop-shadow(0 0 3px #69C9D0);}
+footer .wa{filter:drop-shadow(0 0 3px #25D366);}
 @media(max-width:420px){
   .message h1{font-size:17px;}
   .typing{font-size:15px;}
@@ -152,7 +206,15 @@ body{
 <body>
   <div class="top-typing" id="topTyping"></div>
 
-  <div class="photo-frame"><img src="photo.jpg" alt="photo" class="photo"></div>
+  <div class="photo-frame">
+    <img src="photo.jpg" alt="photo" class="photo">
+    <div class="lyrics-overlay" id="lyrics">
+      <span class="line">You're my sunshine after the rain,</span>
+      <span class="line">My heartbeat in every lane,</span>
+      <span class="line">With you love feels brand new,</span>
+      <span class="line">Forever starts and ends with you 💞</span>
+    </div>
+  </div>
 
   <div class="message">
     <h1>For my darling,</h1>
@@ -173,6 +235,19 @@ body{
 
   <audio id="typingAudio" src="typing-sound.mp3" preload="auto"></audio>
   <audio id="loveAudio" src="love-song.mp3" preload="metadata"></audio>
+
+  <footer>
+    © 2025 Don't touch my gal
+    <a href="https://instagram.com" target="_blank">
+      <img class="ig" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram">
+    </a>
+    <a href="https://tiktok.com" target="_blank">
+      <img class="tt" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok">
+    </a>
+    <a href="https://wa.me" target="_blank">
+      <img class="wa" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/whatsapp.svg" alt="WhatsApp">
+    </a>
+  </footer>
 
 <script>
 // 💙 Continuous header typing animation
@@ -236,7 +311,7 @@ function typeNext(){
 }
 window.addEventListener('load',()=>setTimeout(typeNext,500));
 
-// ❤️ Music button controls (manual start)
+// ❤️ Music button controls
 const musicBtn=document.getElementById('musicBtn');
 const loveAudio=document.getElementById('loveAudio');
 const playIcon=document.getElementById('playIcon');
@@ -256,38 +331,56 @@ loveAudio.addEventListener('play',()=>{
   playIcon.style.display='none';
   pauseIcon.style.display='block';
 });
-
 loveAudio.addEventListener('pause',()=>{
   musicBtn.classList.remove('playing');
   playIcon.style.display='block';
   pauseIcon.style.display='none';
 });
 
-// 🔁 Soft crossfade loop
-loveAudio.addEventListener('timeupdate',()=>{
-  if(loveAudio.duration && loveAudio.currentTime >= loveAudio.duration - 1){
-    let startVol = loveAudio.volume;
-    let step = startVol / 20;
-    let fade = setInterval(()=>{
-      if(loveAudio.volume > step){
-        loveAudio.volume -= step;
-      } else {
-        clearInterval(fade);
-        loveAudio.currentTime = 0;
-        loveAudio.play();
-        fadeIn();
+// 💞 Karaoke-style Lyrics Sync with crossfade
+const lyricsContainer = document.getElementById('lyrics');
+// **CORRECTION 1: Added closing backtick (`) for the multiline string**
+lyricsContainer.innerHTML = `
+  <span class="line">When it comes to you oh baby I'm addicted.🤭</span>
+  <span class="line">You are like a drug no Rehab can fix it...💊</span>
+  <span class="line">I think you're perfect baby even with your flaws</span>
+  <span class="line">You ask me what I like any you ooh I love it all.🌹</span>
+  <span class="line">When it comes to you oh baby I'm addicted</span>
+  <span class="line">You're like a drug no Rehab can fix it</span>
+  <span class="line">I think you're perfect baby even with your flaws.</span>
+  <span class="line">You ask me what I like about you oh I love it all,,</span>
+  <span class="line">You're all i ever neeed</span>
+  <span class="line">Baby you're amazing😍</span>
+  <span class="line">
+You're ma angel come and save me,🫂</span>
+<span class="line">Yeeeaaah...😎</span>
+`; // CLOSING BACKTICK ADDED HERE
+const lines = lyricsContainer.querySelectorAll('.line');
+const lyricTimings = [0, 3, 6, 10, 14, 18, 21, 25, 28, 34, 37, 40]; // synced to your lyrics
+let currentLine = -1;
+
+loveAudio.addEventListener('play', () => {
+  lyricsContainer.classList.add('active');
+});
+loveAudio.addEventListener('pause', () => {
+  lyricsContainer.classList.remove('active');
+});
+loveAudio.addEventListener('timeupdate', () => {
+  const time = loveAudio.currentTime;
+  for (let i = 0; i < lyricTimings.length; i++) {
+    if (time >= lyricTimings[i] && (i === lyricTimings.length - 1 || time < lyricTimings[i + 1])) {
+      if (currentLine !== i) {
+        lines.forEach((l, index) => {
+          if (index === i) l.classList.add('active');
+          // **CORRECTION 2: Fixed typo from l.clas sList.remove to l.classList.remove**
+          else l.classList.remove('active'); 
+        });
+        currentLine = i;
       }
-    },50);
+      break;
+    }
   }
 });
-function fadeIn(){
-  loveAudio.volume = 0;
-  let step = 0.04;
-  let fade = setInterval(()=>{
-    if(loveAudio.volume < 0.8){loveAudio.volume += step;}
-    else{clearInterval(fade);}
-  },50);
-}
 </script>
 </body>
 </html>
